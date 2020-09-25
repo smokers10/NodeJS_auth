@@ -1,0 +1,35 @@
+{
+  "name": "jobby",
+  "version": "1.0.0",
+  "description": "applikasi untuk mencari lowongan kerja atau mencari calon pekerja",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "development" : "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smokers10/jobby.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smokers10/jobby/issues"
+  },
+  "homepage": "https://github.com/smokers10/jobby#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "helmet": "^4.1.1",
+    "mongoose": "^5.10.6",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}
