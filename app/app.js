@@ -25,7 +25,7 @@ require('./config/passport')(passport)
 
 //Using depedencies or modules
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(cors(require('./config/cors')))
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -41,16 +41,13 @@ app.use(function (req, res, next) {
     const isAuthenticated = req.user ? true : false
     const prototype = isAuthenticated ? Object.getPrototypeOf(req.user) : false
     const isCompany = prototype === Company.prototype ? true : false
-
     //set user object based on type of the user
     if (isAuthenticated & isCompany) user = {
         name: req.user.name
     }
-
     if (isAuthenticated & !isCompany) user = {
         name: req.user.first_name
     }
-
     //set all necesary data to locals global object
     res.locals.isAuthenticated = isAuthenticated
     res.locals.isCompany = isCompany
@@ -60,6 +57,7 @@ app.use(function (req, res, next) {
 
 //Router
 app.use('/', require('./routes'))
+app.use('/api', require('./api'))
 
 //Connect to mongoDB 
 DB.connect(process.env.MONGO_URI, require('./config/mongodb'))

@@ -5,9 +5,9 @@ const { User, Company } = require('../models')
 //Page
 router.get('/login', (req, res) => res.render('auth/login'))
 router.get('/register', (req, res) => res.render('auth/register'))
-router.get('/company/register', (req, res) => { res.render('auth/register_company') })
+router.get('/company/register', (req, res) => res.render('auth/register_company'))
 
-//Action for user
+//Authentication action
 router.post('/login', (req, res, next) => {
     if (req.body.login_as_company == 'on') {
         passport.authenticate(
@@ -37,6 +37,7 @@ router.post('/company/register', async (req, res) => {
         .then(() => res.redirect('/login'))
         .catch(err => console.log(err))
 })
+
 
 //For both type of user
 router.get('/logout', (req, res) => {

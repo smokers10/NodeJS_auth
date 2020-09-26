@@ -1,7 +1,23 @@
 const localStrategy = require('passport-local').Strategy
+const jwtStrategy = require('passport-jwt').Strategy
+const extractStrategy = require('passport-jwt').ExtractJwt
+
 const bcrypt = require('bcryptjs')
 const { User, Company } = require('../models')
 
+/**
+ * option for jwt strategy
+ */
+const options = {
+    jwtFromRequest: extractStrategy.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.SECRET,
+}
+
+/**
+ * 
+ * @param {*} userID id from logged in user
+ * @param {*} model what model that match the prototype
+ */
 function SessionContruct(userID, model) {
     this.userID = userID
     this.model = model
@@ -36,6 +52,32 @@ module.exports = function (passport) {
         })
     )
 
+    //Local Strategy
+    passport.use(
+        'jwt-user',
+        new jwtStrategy(options, function (payload, done) {
+            User.findOne({ _id: payload.sub }, function (err, user) {
+                if (err) return done(err, false)
+
+                if (user) return done(null, user)
+                else return (null, false)
+            })
+        })
+    )
+
+    passport.use(
+        'jwt-company',
+        new jwtStrategy(options, function (payload, done) {
+            Company.findOne({ _id: payload.sub })
+                .select(['-password'])
+                .then(user => {
+                    if (user) done(null, user)
+                    else done(null,false)
+                })
+                .catch(err=>done(err,false))
+        })
+    )
+
     //Serialize and deserialize user
     passport.serializeUser(function (user, done) {
         let model = 'user'
@@ -53,7 +95,7 @@ module.exports = function (passport) {
                 .then(user => done(null, user))
                 .catch(err => done(err, false))
         }
-        
+
         else if (sescon.model = 'company') {
             Company.findOne({ _id: sescon.userID })
                 .select(['_id', 'name'])
