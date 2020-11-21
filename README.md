@@ -1,2 +1,2 @@
-# jobby
-applikasi untuk mencari lowongan kerja atau calon pekerja potensial
+# Node js Authenticcation RestFull and Session With Passport
+contoh aplokasi a=otentifikasi api dan session dengan package passport
