@@ -1,2 +1,2 @@
 # Node js Authenticcation RestFull and Session With Passport
-contoh aplokasi a=otentifikasi api dan session dengan package passport
+contoh aplikasi otentifikasi API dan session dengan package passport
